@@ -1,10 +1,6 @@
 package com.allendowney.thinkdast;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * @author downey
@@ -36,16 +32,22 @@ public class MyArrayList<T> implements List<T> {
 		mal.add(1);
 		mal.add(2);
 		mal.add(3);
+		mal.add(4);
+		mal.add(5);
 		System.out.println(Arrays.toString(mal.toArray()) + " size = " + mal.size);
 
-		mal.remove(new Integer(2));
+		mal.remove(Integer.valueOf(2));
 		System.out.println(Arrays.toString(mal.toArray()) + " size = " + mal.size);
 	}
 
 	@Override
 	public boolean add(T element) {
-		// TODO: FILL THIS IN!
-		return false;
+		if (size == array.length) {
+			array = Arrays.copyOf(array, size * 2);
+		}
+		array[size] = element;
+		size++;
+		return true;
 	}
 
 	@Override
@@ -110,7 +112,11 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public int indexOf(Object target) {
-		// TODO: FILL THIS IN!
+		for (int i = 0; i < size; i++) {
+			if (equals(target, array[i])) {
+				return i;
+			}
+		}
 		return -1;
 	}
 
@@ -181,8 +187,17 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public T remove(int index) {
-		// TODO: FILL THIS IN!
-		return null;
+		T oldValue = array[index];
+
+		final int newSize;
+
+		if ((newSize = size - 1) > index) {
+			System.arraycopy(array, index + 1, array, index, newSize - index);
+		}
+
+		array[size = newSize] = null;
+
+		return oldValue;
 	}
 
 	@Override
@@ -201,8 +216,12 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public T set(int index, T element) {
-		// TODO: FILL THIS IN!
-		return null;
+		if (index > size - 1) {
+			throw new IndexOutOfBoundsException();
+		}
+		T temp = array[index];
+		array[index] = element;
+		return temp;
 	}
 
 	@Override
