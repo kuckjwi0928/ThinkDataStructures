@@ -187,7 +187,7 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public T remove(int index) {
-		T oldValue = array[index];
+		T oldValue = get(index);
 
 		final int newSize;
 
@@ -216,12 +216,9 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public T set(int index, T element) {
-		if (index > size - 1) {
-			throw new IndexOutOfBoundsException();
-		}
-		T temp = array[index];
+		T old = get(index);
 		array[index] = element;
-		return temp;
+		return old;
 	}
 
 	@Override
