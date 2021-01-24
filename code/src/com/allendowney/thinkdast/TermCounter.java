@@ -1,13 +1,14 @@
 package com.allendowney.thinkdast;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -36,8 +37,12 @@ public class TermCounter {
 	 * @return
 	 */
 	public int size() {
-		// TODO: FILL THIS IN!
-		return 0;
+		Iterator<Map.Entry<String ,Integer>> entry = map.entrySet().iterator();
+		int size = 0;
+		while (entry.hasNext()) {
+			size += entry.next().getValue();
+		}
+		return size;
 	}
 
 	/**
@@ -90,6 +95,7 @@ public class TermCounter {
 	 */
 	public void incrementTermCount(String term) {
 		// System.out.println(term);
+
 		put(term, get(term) + 1);
 	}
 
@@ -110,8 +116,7 @@ public class TermCounter {
 	 * @return
 	 */
 	public Integer get(String term) {
-		Integer count = map.get(term);
-		return count == null ? 0 : count;
+		return map.getOrDefault(term, 0);
 	}
 
 	/**
